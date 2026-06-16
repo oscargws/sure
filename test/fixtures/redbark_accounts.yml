@@ -1,0 +1,6 @@
+one:
+  redbark_item: one
+  account_id: "rb_acc_1"
+  connection_id: "rb_conn_1"
+  name: "Test Transaction Account"
+  currency: AUD

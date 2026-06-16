@@ -15,6 +15,7 @@ class AccountsController < ApplicationController
     @plaid_items = visible_provider_items(family.plaid_items.ordered.includes(:syncs, :plaid_accounts))
     @simplefin_items = visible_provider_items(family.simplefin_items.ordered.includes(:syncs))
     @lunchflow_items = visible_provider_items(family.lunchflow_items.ordered.includes(:syncs, :lunchflow_accounts))
+    @redbark_items = visible_provider_items(family.redbark_items.ordered.includes(:syncs, :redbark_accounts))
     @akahu_items = visible_provider_items(family.akahu_items.ordered.includes(:syncs, :akahu_accounts))
     @enable_banking_items = visible_provider_items(family.enable_banking_items.ordered.includes(:syncs))
     @coinstats_items = visible_provider_items(family.coinstats_items.ordered.includes(:coinstats_accounts, :accounts, :syncs))
@@ -325,6 +326,13 @@ class AccountsController < ApplicationController
       @lunchflow_items.each do |item|
         latest_sync = item.syncs.ordered.first
         @lunchflow_sync_stats_map[item.id] = latest_sync&.sync_stats || {}
+      end
+
+      # Redbark sync stats
+      @redbark_sync_stats_map = {}
+      @redbark_items.each do |item|
+        latest_sync = item.syncs.ordered.first
+        @redbark_sync_stats_map[item.id] = latest_sync&.sync_stats || {}
       end
 
       # Akahu sync stats

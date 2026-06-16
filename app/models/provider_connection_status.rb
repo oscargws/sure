@@ -6,6 +6,7 @@ class ProviderConnectionStatus
     { key: "plaid", type: "PlaidItem", association: :plaid_items, accounts: :plaid_accounts },
     { key: "simplefin", type: "SimplefinItem", association: :simplefin_items, accounts: :simplefin_accounts },
     { key: "lunchflow", type: "LunchflowItem", association: :lunchflow_items, accounts: :lunchflow_accounts },
+    { key: "redbark", type: "RedbarkItem", association: :redbark_items, accounts: :redbark_accounts },
     { key: "enable_banking", type: "EnableBankingItem", association: :enable_banking_items, accounts: :enable_banking_accounts },
     { key: "coinbase", type: "CoinbaseItem", association: :coinbase_items, accounts: :coinbase_accounts },
     { key: "binance", type: "BinanceItem", association: :binance_items, accounts: :binance_accounts },

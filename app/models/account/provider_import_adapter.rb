@@ -768,6 +768,7 @@ class Account::ProviderImportAdapter
         (transactions.extra -> 'simplefin' ->> 'pending')::boolean = true
         OR (transactions.extra -> 'plaid' ->> 'pending')::boolean = true
         OR (transactions.extra -> 'lunchflow' ->> 'pending')::boolean = true
+        OR (transactions.extra -> 'redbark' ->> 'pending')::boolean = true
         OR (transactions.extra -> 'enable_banking' ->> 'pending')::boolean = true
         OR (transactions.extra -> 'akahu' ->> 'pending')::boolean = true
       SQL
@@ -816,6 +817,7 @@ class Account::ProviderImportAdapter
         (transactions.extra -> 'simplefin' ->> 'pending')::boolean = true
         OR (transactions.extra -> 'plaid' ->> 'pending')::boolean = true
         OR (transactions.extra -> 'lunchflow' ->> 'pending')::boolean = true
+        OR (transactions.extra -> 'redbark' ->> 'pending')::boolean = true
         OR (transactions.extra -> 'enable_banking' ->> 'pending')::boolean = true
         OR (transactions.extra -> 'akahu' ->> 'pending')::boolean = true
       SQL
@@ -887,6 +889,7 @@ class Account::ProviderImportAdapter
         (transactions.extra -> 'simplefin' ->> 'pending')::boolean = true
         OR (transactions.extra -> 'plaid' ->> 'pending')::boolean = true
         OR (transactions.extra -> 'lunchflow' ->> 'pending')::boolean = true
+        OR (transactions.extra -> 'redbark' ->> 'pending')::boolean = true
         OR (transactions.extra -> 'enable_banking' ->> 'pending')::boolean = true
         OR (transactions.extra -> 'akahu' ->> 'pending')::boolean = true
       SQL

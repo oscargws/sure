@@ -66,6 +66,9 @@ module SettingsHelper
     when "lunchflow"
       return { status: :off } unless @lunchflow_items&.any?
       sync_based_summary(key)
+    when "redbark"
+      return { status: :off } unless @redbark_items&.any?
+      sync_based_summary(key)
     when "enable_banking"
       return { status: :off } unless @enable_banking_items&.any?
       enable_banking_summary

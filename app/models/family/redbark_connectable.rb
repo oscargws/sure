@@ -1,0 +1,28 @@
+module Family::RedbarkConnectable
+  extend ActiveSupport::Concern
+
+  included do
+    has_many :redbark_items, dependent: :destroy
+  end
+
+  def can_connect_redbark?
+    # Families can now configure their own Redbark credentials
+    true
+  end
+
+  def create_redbark_item!(api_key:, base_url: nil, item_name: nil)
+    redbark_item = redbark_items.create!(
+      name: item_name || "Redbark Connection",
+      api_key: api_key,
+      base_url: base_url
+    )
+
+    redbark_item.sync_later
+
+    redbark_item
+  end
+
+  def has_redbark_credentials?
+    redbark_items.where.not(api_key: nil).exists?
+  end
+end

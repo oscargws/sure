@@ -6,6 +6,7 @@ class DataEnrichment < ApplicationRecord
     plaid: "plaid",
     simplefin: "simplefin",
     lunchflow: "lunchflow",
+    redbark: "redbark",
     akahu: "akahu",
     synth: "synth",
     ai: "ai",

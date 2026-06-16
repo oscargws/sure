@@ -341,6 +341,7 @@ en:
         akahu: Sync New Zealand financial institutions via Akahu.
         simplefin: Connect US bank accounts via the open SimpleFIN protocol.
         lunchflow: Connect 20k+ banks from 40+ countries (UK, EU, USA and more!)
+        redbark: Connect Australian bank accounts (CDR Open Banking) via Redbark.
         enable_banking: Sync European bank accounts via PSD2 open banking.
         coinstats: Track your entire crypto portfolio across wallets and exchanges.
         mercury: Sync your Mercury business banking accounts automatically.
@@ -464,6 +465,17 @@ en:
         api_key_placeholder_update: "Enter new API key to update"
         base_url_label: "Base URL (Optional)"
         base_url_placeholder: "https://lunchflow.app/api/v1 (default)"
+        save_and_connect: "Save and connect"
+        update_connection: "Update connection"
+      redbark_panel:
+        step_1_html: "Go to %{link} and create an API key."
+        step_2: "Paste your key below and connect."
+        step_3: "Then head to Accounts to link your synced accounts."
+        api_key_label: "API Key"
+        api_key_placeholder_new: "Paste API key here"
+        api_key_placeholder_update: "Enter new API key to update"
+        base_url_label: "Base URL (Optional)"
+        base_url_placeholder: "https://api.redbark.com (default)"
         save_and_connect: "Save and connect"
         update_connection: "Update connection"
       akahu_panel:

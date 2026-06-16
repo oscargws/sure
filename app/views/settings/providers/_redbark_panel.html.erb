@@ -1,0 +1,44 @@
+<div class="space-y-4">
+  <%
+    lf_link = link_to("Redbark", "https://www.redbark.app/?atp=BiDIYS", target: "_blank", rel: "noopener noreferrer", class: "text-primary font-medium underline")
+  %>
+  <%= render "settings/providers/setup_steps",
+             steps: [
+               t("settings.providers.redbark_panel.step_1_html", link: lf_link),
+               t("settings.providers.redbark_panel.step_2"),
+               t("settings.providers.redbark_panel.step_3")
+             ] %>
+
+  <% error_msg = local_assigns[:error_message] || @error_message %>
+  <% if error_msg.present? %>
+    <%= render DS::Alert.new(message: error_msg, variant: :error) %>
+  <% end %>
+
+  <%
+    # Get or initialize a redbark_item for this family
+    redbark_item = Current.family.redbark_items.first_or_initialize(name: "Redbark Connection")
+    is_new_record = redbark_item.new_record?
+  %>
+
+  <%= styled_form_with model: redbark_item,
+                       url: is_new_record ? redbark_items_path : redbark_item_path(redbark_item),
+                       scope: :redbark_item,
+                       method: is_new_record ? :post : :patch,
+                       data: { turbo: true },
+                       class: "space-y-3" do |form| %>
+    <%= form.text_field :api_key,
+                        label: t("settings.providers.redbark_panel.api_key_label"),
+                        placeholder: is_new_record ? t("settings.providers.redbark_panel.api_key_placeholder_new") : t("settings.providers.redbark_panel.api_key_placeholder_update"),
+                        type: :password %>
+
+    <%= form.text_field :base_url,
+                        label: t("settings.providers.redbark_panel.base_url_label"),
+                        placeholder: t("settings.providers.redbark_panel.base_url_placeholder"),
+                        value: redbark_item.base_url %>
+
+    <div class="flex justify-end">
+      <%= form.submit is_new_record ? t("settings.providers.redbark_panel.save_and_connect") : t("settings.providers.redbark_panel.update_connection") %>
+    </div>
+  <% end %>
+
+</div>
