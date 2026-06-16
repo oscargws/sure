@@ -86,7 +86,6 @@
           <%= render "accounts/index/account_groups", accounts: redbark_item.accounts %>
         <% end %>
 
-        <%# Sync summary (collapsible) - using shared ProviderSyncSummary component %>
         <% stats = if defined?(@redbark_sync_stats_map) && @redbark_sync_stats_map
              @redbark_sync_stats_map[redbark_item.id] || {}
            else
@@ -98,7 +97,6 @@
           institutions_count: redbark_item.connected_institutions.size
         ) %>
 
-        <%# Use model methods for consistent counts %>
         <% unlinked_count = redbark_item.unlinked_accounts_count %>
         <% linked_count = redbark_item.linked_accounts_count %>
         <% total_count = redbark_item.total_accounts_count %>

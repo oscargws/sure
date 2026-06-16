@@ -150,7 +150,11 @@ class RedbarkItem::Importer
       accounts_data
     rescue Provider::Redbark::RedbarkError => e
       if e.error_type == :unauthorized || e.error_type == :access_forbidden
-        redbark_item.update!(status: :requires_update) rescue nil
+        begin
+          redbark_item.update!(status: :requires_update)
+        rescue => status_error
+          Rails.logger.error "RedbarkItem::Importer - Failed to mark item requires_update: #{status_error.message}"
+        end
       end
       Rails.logger.error "RedbarkItem::Importer - Redbark API error: #{e.message}"
       nil
@@ -184,7 +188,7 @@ class RedbarkItem::Importer
       # balance and move on rather than calling the API with a blank connectionId.
       if redbark_account.connection_id.blank?
         Rails.logger.warn "RedbarkItem::Importer - Account #{redbark_account.account_id} has no connection_id; fetching balance only"
-        fetch_and_update_balance(redbark_account) rescue nil
+        fetch_and_update_balance(redbark_account)
         return { success: true, transactions_count: 0 }
       end
 
@@ -227,8 +231,8 @@ class RedbarkItem::Importer
           redbark_account.upsert_redbark_transactions_snapshot!(existing + new_transactions) if new_transactions.any?
         end
 
-        # Balance is best-effort; never fail the transaction import over it.
-        fetch_and_update_balance(redbark_account) rescue nil
+        # Balance is best-effort; fetch_and_update_balance rescues its own provider/AR errors.
+        fetch_and_update_balance(redbark_account)
 
         { success: true, transactions_count: transactions_count }
       rescue Provider::Redbark::RedbarkError => e
@@ -262,11 +266,20 @@ class RedbarkItem::Importer
     # sync with a buffer to catch late-posting items.
     def determine_sync_start_date(redbark_account)
       has_stored_transactions = redbark_account.raw_transactions_payload.to_a.any?
+      last_synced = item_last_synced_at
 
-      if has_stored_transactions && redbark_item.last_synced_at
-        redbark_item.last_synced_at - INCREMENTAL_BUFFER
+      if has_stored_transactions && last_synced
+        last_synced - INCREMENTAL_BUFFER
       else
         FIRST_SYNC_WINDOW.ago
       end
+    end
+
+    # Memoized: last_synced_at queries the syncs table, and determine_sync_start_date
+    # runs once per account inside the transactions loop.
+    def item_last_synced_at
+      return @item_last_synced_at if defined?(@item_last_synced_at)
+
+      @item_last_synced_at = redbark_item.last_synced_at
     end
 end
